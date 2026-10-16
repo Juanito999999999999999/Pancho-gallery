@@ -1,0 +1,7 @@
+{
+  "name": "Pancho-gallery",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
