@@ -15,7 +15,7 @@
 
   <ion-item lines="none">
     <ion-avatar slot="start" [class.female]="jugador.sexo === 'F'">
-      <img alt="Avatar" [src]="jugador.avatar" />
+      <img alt="Avatar" [src]="jugador.avatar"/>
     </ion-avatar>
 
     <ion-label>
@@ -45,16 +45,16 @@
       </ion-row>
 
       @for (desafio of desafios; track $index; let i = $index) {
-      <ion-row class="challenge-row ion-align-items-center">
-        <ion-col size="3" class="num ion-text-center">Desafio: {{ i + 1 }}</ion-col>
-        <ion-col size="auto">
-          <ion-img [src]="desafio.icono"></ion-img>
-        </ion-col>
-        <ion-col size="5">{{ desafio.desafio }}</ion-col>
-        <ion-col size="auto" class="ion-text-center">
-          <ion-button fill="clear">Jugar</ion-button>
-        </ion-col>
-      </ion-row>
+        <ion-row class="challenge-row ion-align-items-center">
+          <ion-col size="3" class="num ion-text-center">{{ i + 1 }}</ion-col>
+          <ion-col size="auto">
+            <ion-img [src]="desafio.icono"></ion-img>
+          </ion-col>
+          <ion-col size="5">{{ desafio.desafio }}</ion-col>
+          <ion-col size="auto" class="ion-text-center">
+            <ion-button fill="clear" (click)="jugar(desafio)">Jugar</ion-button>
+          </ion-col>
+        </ion-row>
       }
     </ion-grid>
   </ion-item>

@@ -1,0 +1,4 @@
+npx ng build && npx cap sync android
+&& (cd android
+&& JAVA_HOME="/Users/leoalvarado/Library/Java/JavaVirtualMachines/corretto-21.0.6/Contents/Home" ANDROID_HOME="$HOME/Library/Android/sdk" ./gradlew assembleDebug)
+&& ~/Library/Android/sdk/platform-tools/adb install -r android/app/build/outputs/apk/debug/app-debug.apk

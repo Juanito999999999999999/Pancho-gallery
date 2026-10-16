@@ -1,0 +1,14 @@
+video {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #000;
+  margin-bottom: 8px;
+}
+
+.foto {
+  max-width: 100%;
+  border-radius: 12px;
+  margin-top: 8px;
+}

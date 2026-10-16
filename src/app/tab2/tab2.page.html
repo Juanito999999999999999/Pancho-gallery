@@ -9,9 +9,52 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Juego</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  @if (desafio) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ desafio.desafio }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        @if (desafio.icono) {
+          <img [src]="desafio.icono" alt="Imagen del desafío" width="200" />
+        }
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Foto del objeto</ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="ion-text-center">
+        <video #video autoplay playsinline [style.display]="camaraActiva ? 'block' : 'none'"></video>
+
+        @if (!camaraActiva) {
+          <ion-button (click)="abrirCamara()">Abrir cámara</ion-button>
+        } @else {
+          <ion-button (click)="tomarFoto()">Tomar foto</ion-button>
+          <ion-button fill="clear" color="medium" (click)="cerrarCamara()">Cerrar</ion-button>
+        }
+
+        @if (errorCamara) {
+          <p style="color: var(--ion-color-danger)">{{ errorCamara }}</p>
+        }
+
+        @if (foto) {
+          <img class="foto" [src]="foto" alt="Foto capturada" />
+        }
+
+        <ion-button expand="block" class="ion-margin-top">Buscar Objeto</ion-button>
+      </ion-card-content>
+    </ion-card>
+  } @else {
+    <ion-card>
+      <ion-card-content>
+        <ion-label>No hay desafío. Vuelve a Inicio y pulsa Jugar.</ion-label>
+      </ion-card-content>
+    </ion-card>
+  }
 </ion-content>
