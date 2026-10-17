@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -11,10 +11,10 @@ import {
   IonLabel,
   IonButton
 } from '@ionic/angular';
-import {ExploreContainerComponent} from '../explore-container/explore-container.component';
-import {Router} from "@angular/router";
-import {Subscription} from 'rxjs';
-import {DesafioService} from '../services/desafio.service';
+import { ExploreContainerComponent } from '../explore-container/explore-container.component';
+import { Router } from "@angular/router";
+import { Subscription } from 'rxjs';
+import { DesafioService } from '../services/desafio.service';
 
 @Component({
   selector: 'app-tab2',
@@ -32,6 +32,10 @@ export class Tab2Page implements OnInit, OnDestroy {
   camaraActiva = false;
   errorCamara = '';
 
+  //Contador
+  contador = signal(0);
+  private intervalo?: ReturnType<typeof setInterval>;
+
   constructor(private router: Router, private desafioService: DesafioService, private cdr: ChangeDetectorRef) {
   }
 
@@ -44,15 +48,29 @@ export class Tab2Page implements OnInit, OnDestroy {
     });
   }
 
+
+  iniciar_contador() {
+    this.intervalo = setInterval(() => {
+      this.contador.update(n => n + 1)
+    }, 1000)
+  }
+
+  detener_contador(){
+    clearInterval(this.intervalo);
+    this.intervalo = undefined;
+  }
+
+
   async abrirCamara() {
     this.errorCamara = '';
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({video: {facingMode: 'environment'}}); // cámara trasera
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }); // cámara trasera
       const video = this.videoRef?.nativeElement;
       if (video) {
         video.srcObject = stream;
         this.camaraActiva = true;
       }
+      this.iniciar_contador();
     } catch {
       this.errorCamara = 'No se pudo abrir la cámara. Dale permiso en el navegador.';
     }
@@ -68,6 +86,7 @@ export class Tab2Page implements OnInit, OnDestroy {
     canvas.getContext('2d')?.drawImage(video, 0, 0);
     this.foto = canvas.toDataURL('image/jpeg', 0.8);
     this.cerrarCamara();
+    this.detener_contador();
   }
 
   cerrarCamara() {
